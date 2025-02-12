@@ -6,39 +6,39 @@ public class Produto {
     private double valor_unit;
     private int quantidade;
 
-    public Produto(int id, String nome, double valor_unit, int quantidade) {
+    public Produto(int id, String nome, int quantidade,  double valor_unit) {
         this.id = id;
         this.nome = nome;
-        this.valor_unit = valor_unit;
         this.quantidade = quantidade;
+        this.valor_unit = valor_unit;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public int getQuantidade() {
+        return quantidade;
     }
 
     public double getValor_unit() {
         return valor_unit;
     }
 
-    public void setValor_unit(double valor_unit) {
-        this.valor_unit = valor_unit;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getQuantidade() {
-        return quantidade;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setValor_unit(double valor_unit) {
+        this.valor_unit = valor_unit;
     }
 
     public void setQuantidade(int quantidade) {
@@ -46,6 +46,6 @@ public class Produto {
     }
 
     public String toString() {
-        return "Cliente{" + "codigo='" + id + '\'' + ", nome='" + nome + '\'' + ", valor_unit='" + valor_unit + '\'' + "quantidade='" + quantidade + '\'' + '}';
+        return "ProdutoId: " + id + "Nome: " + nome + "Valor Unitario: " + valor_unit + "Quantidade: " + quantidade;
     }
 }

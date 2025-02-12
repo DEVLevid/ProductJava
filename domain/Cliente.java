@@ -6,7 +6,7 @@ public class Cliente {
     private String endereco;
     private String telefone;
 
-    public Cliente(String nome, String cpf, String endereco, String telefone) {
+    public Cliente(String cpf, String nome, String endereco, String telefone) {
         this.cpf = cpf;
         this.endereco = endereco;
         this.nome = nome;
@@ -46,6 +46,6 @@ public class Cliente {
     }
 
     public String toString() {
-        return "Cliente{" + "cpf='" + cpf + '\'' + ", nome='" + nome + '\'' + ", endereco='" + endereco + '\'' + ", telefone='" + telefone + '\'' + '}';
+        return "CPF: " + cpf + "NOME: " + nome + "Endereco: " + endereco + "Telefone: " + telefone;
     }
 }

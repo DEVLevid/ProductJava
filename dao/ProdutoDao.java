@@ -13,52 +13,37 @@ import java.util.List;
 
 public class ProdutoDao {
     public void save(Produto produto) {
-        String sql = "insert into produto values(?,?,?,?)";
-
-        try {
-            Connection connection = ConnectionHelper.getConnection();
+        String sql = "INSERT INTO PRODUTO (ID, NOME, QUANTIDADE, VALOR_UNIT) VALUES (?, ?, ?, ?)";
+        try( Connection connection = ConnectionHelper.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
-
             pst.setInt(1, produto.getId());
             pst.setString(2, produto.getNome());
-            pst.setInt(3, produto.getQuantidade());
-            pst.setDouble(4, produto.getValor_unit());
+            pst.setDouble(3, produto.getQuantidade());
+            pst.setInt(4, produto.getQuantidade());
 
             pst.execute();
             pst.close();
-            connection.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
     public List<Produto> findAll() {
         String sql = "SELECT * FROM PRODUTO;";
-
         List<Produto> lista = new ArrayList<>();
-        try {
-            Connection connection = ConnectionHelper.getConnection();
+        try (Connection connection = ConnectionHelper.getConnection()){
             PreparedStatement pst = connection.prepareStatement(sql);
-
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("ID");
                 String nome = rs.getString("NOME");
-                Double valor_unit = rs.getDouble("VALOR_UNIT");
                 int quantidade = rs.getInt("QUANTIDADE");
-
-                Produto produto = new Produto(id, nome, valor_unit, quantidade);
+                double valor_unit = rs.getDouble("VALOR_UNIT");
+                Produto produto = new Produto(id, nome, quantidade, valor_unit);
                 lista.add(produto);
             }
-
             pst.close();
-            connection.close();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
         return lista;
@@ -66,25 +51,23 @@ public class ProdutoDao {
 
     public Produto findById(int id) {
         String sql = "SELECT * FROM PRODUTO WHERE ID = ?";
-
-        Produto produto = null;
+        List<Produto> listaProdutos = new ArrayList<>();
         try (Connection connection = ConnectionHelper.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
-
             if (rs.next()) {
-                String nome = rs.getString("NOME");
-                double valorUnit = rs.getDouble("VALOR_UNIT");
-                int quantidade = rs.getInt("QUANTIDADE");
-
-                produto = new Produto(id, nome, valorUnit, quantidade);
+                Produto produtoItem = new Produto(
+                        rs.getInt("ID"),
+                        rs.getString("NOME"),
+                        rs.getInt("QUANTIDADE"),
+                        rs.getDouble("VALOR_UNIT"));
+                listaProdutos.add(produtoItem);
             }
-
             pst.close();
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Nao foi possivel buscar os Produtos!", e);
         }
-        return produto;
+        return (Produto) listaProdutos;
     }
 }

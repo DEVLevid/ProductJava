@@ -45,8 +45,4 @@ public class Funcionario {
         this.telefone = telefone;
     }
 
-    @Override
-    public String toString() {
-        return "Funcionario{" + "cpf='" + cpf + '\'' + ", nome='" + nome + '\'' + ", endereco='" + endereco + '\'' + ", telefone='" + telefone + '\'' + '}';
-    }
 }
